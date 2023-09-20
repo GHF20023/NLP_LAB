@@ -10,7 +10,7 @@ from gensim.utils import simple_preprocess
 from gensim import corpora
 
 #text2 = open('sample_text.txt', encoding ='utf-8')
-text2 = input()
+text2 = input() 
 
 tokens2 =[]
 for line in text2.split('.'):  #read().
