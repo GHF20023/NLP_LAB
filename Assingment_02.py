@@ -1,42 +1,58 @@
-'''
-Assignment no 2:
-Name: Kalyani Pawar
-Batch:B4
-Roll no: 73
-Title: "Assignment on bag of words (BOW) using Gensim library "
-'''
+#Assignment no : 2
+#Name : Kalyani Pawar
+#Batch : B4
+#Roll no : 73
+#Title : Natural Language Processing (NLP) using Gensim
 
+import gensim
+from gensim import corpora
 from gensim.utils import simple_preprocess
 from gensim import corpora
 
-#text2 = open('sample_text.txt', encoding ='utf-8')
-text2 = input() 
+text1 = ["My name is Kalyani Pawar.", 
+   "I am from Sanjivani College of Engineering.", 
+   "Kalyani is from kopargaon. "]
 
-tokens2 =[]
-for line in text2.split('.'):  #read().
-  tokens2.append(simple_preprocess(line, deacc = True))
 
-g_dict1 = corpora.Dictionary(tokens2)
-
-print("The dictionary has: " +str(len(g_dict1)) + " tokens\n")
-print(g_dict1.token2id)
-
-'''g_dict1.add_documents(tokens2)
+tokens1 = [[item for item in line.split()] for line in text1]
+g_dict1 = corpora.Dictionary(tokens1)
 
 print("The dictionary has: " +str(len(g_dict1)) + " tokens\n")
 print(g_dict1.token2id)
-'''
-g_bow =[g_dict1.doc2bow(token, allow_update = True) for token in tokens2]
+
+g_bow =[g_dict1.doc2bow(token, allow_update = True) for token in tokens1]
 print("Bag of Words : ", g_bow)
 
 
-'''
-Output:
+print("\n--------------------------------------------------------------------------------------------------------------------------")
+print("-----TFIDF------------------------------------------------------------------------------------------------------------------")
+text = ["My name is Kalyani Pawar.", 
+   "I am from Sanjivani College of Engineering.", 
+   "kalyani is from kopargaon. "]
 
-Gensim is a free open-source Python library for representing documents as semantic vectors, as efficiently and painlessly as possible. Gensim is designed to process raw, unstructured digital texts using unsupervised machine learning algorithms.
-The dictionary has: 29 tokens
+g_dict = corpora.Dictionary([simple_preprocess(line) for line in text])
+g_bow = [g_dict.doc2bow(simple_preprocess(line)) for line in text]
 
-{'and': 0, 'as': 1, 'documents': 2, 'efficiently': 3, 'for': 4, 'free': 5, 'gensim': 6, 'is': 7, 'library': 8, 'open': 9, 'painlessly': 10, 'possible': 11, 'python': 12, 'representing': 13, 'semantic': 14, 'source': 15, 'vectors': 16, 'algorithms': 17, 'designed': 18, 'digital': 19, 'learning': 20, 'machine': 21, 'process': 22, 'raw': 23, 'texts': 24, 'to': 25, 'unstructured': 26, 'unsupervised': 27, 'using': 28}
-Bag of Words :  [[(0, 1), (1, 3), (2, 1), (3, 1), (4, 1), (5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1), (12, 1), (13, 1), (14, 1), (15, 1), (16, 1)], [(6, 1), (7, 1), (17, 1), (18, 1), (19, 1), (20, 1), (21, 1), (22, 1), (23, 1), (24, 1), (25, 1), (26, 1), (27, 1), (28, 1)], []]
+print("Dictionary : ")
+for item in g_bow:
+    print([[g_dict[id], freq] for id, freq in item])
 
-'''
+# g_tfidf = models.TfidfModel(g_bow, smartirs='ntc')
+
+# print("TF-IDF Vector:")
+# for item in g_tfidf[g_bow]:
+#     print([[g_dict[id], np.around(freq, decimals=2)] for id, freq in item])
+
+
+#OUTPUT
+# The dictionary has: 13 tokens
+
+# {'Kalyani': 0, 'My': 1, 'Pawar.': 2, 'is': 3, 'name': 4, 'College': 5, 'Engineering.': 6, 'I': 7, 'Sanjivani': 8, 'am': 9, 'from': 10, 'of': 11, 'Junner.': 12}
+# Bag of Words :  [[(0, 1), (1, 1), (2, 1), (3, 1), (4, 1)], [(5, 1), (6, 1), (7, 1), (8, 1), (9, 1), (10, 1), (11, 1)], [(0, 1), (3, 1), (10, 1), (12, 1)]]
+
+# --------------------------------------------------------------------------------------------------------------------------
+# -----TFIDF------------------------------------------------------------------------------------------------------------------
+# Dictionary : 
+# [['kayani', 1], ['is', 1], ['my', 1], ['name', 1], ['pawar', 1]]
+# [['am', 1], ['college', 1], ['engineering', 1], ['from', 1], ['of', 1], ['sanjivani', 1]]
+# [['kalyani', 1], ['is', 1], ['from', 1], ['Kopargaon', 1]]
